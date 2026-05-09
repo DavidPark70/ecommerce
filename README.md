@@ -26,9 +26,41 @@ A full-stack ecommerce website built with React, Node.js, and Amazon RDS (Postgr
 
 ## Database
 
-The application uses PostgreSQL. Set up your Amazon RDS instance and update the `DATABASE_URL` in `.env`.
+The application uses PostgreSQL. Set up your Amazon RDS instance and update the `DATABASE_URL` in `server/.env`.
 
-Tables: Users, Products, Orders, OrderItems.
+Example `server/.env`:
+
+```env
+DATABASE_URL=postgresql://username:password@host:5432/database
+JWT_SECRET=your_jwt_secret
+```
+
+### Migrations
+
+This project uses Sequelize migrations for schema management.
+
+From the `server` folder, run:
+
+```bash
+export DATABASE_URL=postgresql://username:password@host:5432/database
+npx sequelize-cli db:migrate
+```
+
+That command:
+
+- connects to the configured PostgreSQL database
+- runs the migration files in `server/migrations`
+- creates the tables in the correct order
+- records applied migrations in the `SequelizeMeta` table
+
+### What DevOps should do
+
+1. Provision the RDS PostgreSQL instance.
+2. Create the empty database.
+3. Provide the application with the `DATABASE_URL`.
+4. Run the migration command or include it in the deployment pipeline.
+
+Tables created by migrations: Users, Products, Orders, OrderItems.
 
 ## API Endpoints
 
